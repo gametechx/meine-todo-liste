@@ -18,7 +18,7 @@ Da es sich um eine statische Webseite handelt, benötigst du keine komplizierte 
 
 1.  **Repository klonen oder herunterladen:** Lade dieses Projekt von GitHub herunter oder klone es mit Git:
     ```sh
-    git clone [https://github.com/](https://github.com/)[Dein-GitHub-Name]/[Dein-Repo-Name].git
+    [git clone [https://github.com/](https://github.com/)[Dein-GitHub-Name]/[Dein-Repo-Name].git](https://github.com/gametechx/meine-todo-liste.git)
     ```
     (Ersetze `[Dein-GitHub-Name]` und `[Dein-Repo-Name]` durch deine Informationen.)
 2.  **Öffnen im Browser:** Navigiere zum Ordner des Projekts und öffne die Datei `index.html` direkt in deinem Webbrowser (z. B. Chrome, Firefox oder Edge).
