@@ -18,10 +18,10 @@ Da es sich um eine statische Webseite handelt, benötigst du keine komplizierte 
 
 1.  **Repository klonen oder herunterladen:** Lade dieses Projekt von GitHub herunter oder klone es mit Git:
     ```sh
-    git clone [https://github.com/GameTechX/dein-repository-name.git](https://github.com/GameTechX/dein-repository-name.git)
+    git clone https://github.com/GameTechX/meine-todo-liste.git
     ```
     (Ersetze `dein-repository-name` durch den Namen deines Repositories.)
-2.  **Öffnen im Browser:** Navigiere zum Ordner des Projekts und öffne die Datei `index.html` direkt in deinem Webbrowser (z. B. Chrome, Firefox oder Edge).
+2.  **Öffnen im Browser:** Navigiere zum Ordner des Projekts und öffne die Datei `to_do_liste.html` direkt in deinem Webbrowser (z. B. Chrome, Firefox oder Edge).
 
 Jetzt kannst du die To-Do-Liste direkt in deinem Browser benutzen.
 
