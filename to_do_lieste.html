@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine To-Do-Liste</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #555;
+        }
+        #neue-aufgabe-form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        #neue-aufgabe-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        #neue-aufgabe-button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        .erledigt .aufgabe-text {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .unwichtig .aufgabe-text {
+            color: #aaa;
+        }
+        .aufgabe-text {
+            flex-grow: 1;
+            padding-left: 10px;
+        }
+        .status-button {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .status-button.erledigt {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+        .status-button.unwichtig {
+            background-color: #ffc107;
+            border: none;
+        }
+        .delete-button {
+            background-color: transparent;
+            border: none;
+            color: #dc3545;
+            font-size: 18px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Meine To-Do-Liste</h1>
+
+    <form id="neue-aufgabe-form">
+        <input type="text" id="neue-aufgabe-input" placeholder="Neue Aufgabe hinzufügen..." required>
+        <button type="submit" id="neue-aufgabe-button">Hinzufügen</button>
+    </form>
+    
+    <div id="listen-container">
+        <h2>Wichtige Dinge</h2>
+        <ul id="wichtige-dinge-liste"></ul>
+
+        <h2>Unwichtige Dinge</h2>
+        <ul id="unwichtige-dinge-liste"></ul>
+
+        <h2>Erledigte Dinge</h2>
+        <ul id="erledigte-dinge-liste"></ul>
+    </div>
+</div>
+
+<script>
+    const aufgabenForm = document.getElementById('neue-aufgabe-form');
+    const aufgabenInput = document.getElementById('neue-aufgabe-input');
+    const wichtigeListe = document.getElementById('wichtige-dinge-liste');
+    const unwichtigeListe = document.getElementById('unwichtige-dinge-liste');
+    const erledigteListe = document.getElementById('erledigte-dinge-liste');
+
+    function erstelleAufgabe(text) {
+        const li = document.createElement('li');
+        
+        const statusButton = document.createElement('div');
+        statusButton.classList.add('status-button');
+        statusButton.innerHTML = '&#x25A1;'; // Quadrat-Symbol
+
+        const aufgabeText = document.createElement('span');
+        aufgabeText.classList.add('aufgabe-text');
+        aufgabeText.textContent = text;
+        
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete-button');
+        deleteButton.innerHTML = '&times;'; // X-Symbol
+
+        li.appendChild(statusButton);
+        li.appendChild(aufgabeText);
+        li.appendChild(deleteButton);
+
+        return li;
+    }
+
+    aufgabenForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const aufgabenText = aufgabenInput.value.trim();
+        if (aufgabenText !== '') {
+            const neueAufgabe = erstelleAufgabe(aufgabenText);
+            wichtigeListe.appendChild(neueAufgabe);
+            aufgabenInput.value = '';
+            
+            neueAufgabe.querySelector('.status-button').addEventListener('click', function() {
+                const isWichtig = neueAufgabe.parentElement === wichtigeListe;
+                const isUnwichtig = neueAufgabe.parentElement === unwichtigeListe;
+                const isErledigt = neueAufgabe.parentElement === erledigteListe;
+
+                if (isWichtig) {
+                    neueAufgabe.classList.remove('wichtig');
+                    neueAufgabe.classList.add('unwichtig');
+                    neueAufgabe.querySelector('.status-button').classList.add('unwichtig');
+                    neueAufgabe.querySelector('.status-button').innerHTML = '&#9711;'; // Kreis-Symbol
+                    unwichtigeListe.appendChild(neueAufgabe);
+                } else if (isUnwichtig) {
+                    neueAufgabe.classList.remove('unwichtig');
+                    neueAufgabe.classList.add('erledigt');
+                    neueAufgabe.querySelector('.status-button').classList.remove('unwichtig');
+                    neueAufgabe.querySelector('.status-button').classList.add('erledigt');
+                    neueAufgabe.querySelector('.status-button').innerHTML = '&#10003;'; // Häkchen-Symbol
+                    erledigteListe.appendChild(neueAufgabe);
+                } else if (isErledigt) {
+                    neueAufgabe.classList.remove('erledigt');
+                    neueAufgabe.classList.add('wichtig');
+                    neueAufgabe.querySelector('.status-button').classList.remove('erledigt');
+                    neueAufgabe.querySelector('.status-button').innerHTML = '&#x25A1;'; // Quadrat-Symbol
+                    wichtigeListe.appendChild(neueAufgabe);
+                }
+            });
+
+            neueAufgabe.querySelector('.delete-button').addEventListener('click', function() {
+                neueAufgabe.remove();
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
